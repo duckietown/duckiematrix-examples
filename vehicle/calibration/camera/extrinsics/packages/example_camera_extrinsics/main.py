@@ -1,67 +1,68 @@
 #!/usr/bin/env python3
 
 # line detector
+from threading import Thread
 from typing import Dict
-from typing import Union, Tuple
+from typing import Union
 
+import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 from turbojpeg import TurboJPEG
-import matplotlib.pyplot as plt
 
 # duckiematrix
 from dt_computer_vision.camera import CameraModel, BGRImage
 from dt_computer_vision.camera.calibration.extrinsics.boards import CalibrationBoard8by6
 from dt_computer_vision.camera.calibration.extrinsics.chessboard import find_corners
+from dt_computer_vision.camera.calibration.extrinsics.exceptions import NoCornersFoundException
 from dt_computer_vision.camera.calibration.extrinsics.ransac import estimate_homography
 from dt_computer_vision.camera.calibration.extrinsics.rendering import draw_corners
 from dt_duckiematrix_protocols import Matrix
 
-import cv2
-
-
 # intrinsics camera calibration
-camera_info: Dict[str, Union[np.ndarray, int]] = {
-    "width": 640,
-    "height": 480,
-    "K": np.reshape(
-        [
-            295.79606866959824,
-            0.0,
-            321.2621599038631,
-            0.0,
-            299.5389048862878,
-            241.73616515312332,
-            0.0,
-            0.0,
-            1.0,
-        ],
-        (3, 3)
-    ),
-    "D": [
-        -0.23543978771661125,
-        0.03637781479419574,
-        -0.0033069818601306755,
-        -0.0012140708179525926,
-        0.0,
-    ],
-    "P": np.reshape(
-        [
-            201.14027404785156,
-            0.0,
-            319.5586620845679,
-            0.0,
-            0.0,
-            239.74398803710938,
-            237.60151004037834,
-            0.0,
-            0.0,
-            0.0,
-            1.0,
+camera_info: Dict[str, Union[np.ndarray, int]] = \
+    {
+        "width": 640,
+        "height": 480,
+        "K": np.reshape(
+            [
+                295.79606866959824,
+                0.0,
+                321.2621599038631,
+                0.0,
+                299.5389048862878,
+                241.73616515312332,
+                0.0,
+                0.0,
+                1.0,
+            ],
+            (3, 3)
+        ),
+        "D": [
+            -0.23543978771661125,
+            0.03637781479419574,
+            -0.0033069818601306755,
+            -0.0012140708179525926,
             0.0,
         ],
-        (3, 4)
-    )
-}
+        "P": np.reshape(
+            [
+                201.14027404785156,
+                0.0,
+                319.5586620845679,
+                0.0,
+                0.0,
+                239.74398803710938,
+                237.60151004037834,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+            ],
+            (3, 4)
+        )
+    }
 
 # JPEG decoder
 jpeg = TurboJPEG()
@@ -90,12 +91,17 @@ class CameraExtrinsicsCalibration:
             D=camera_info["D"],
             P=camera_info["P"]
         )
+        self._is_shutdown: bool = False
 
     @property
     def is_shutdown(self) -> bool:
-        return False
+        return self._is_shutdown
 
-    def _show_frame(self, bgr: BGRImage):
+    def shutdown(self):
+        self._is_shutdown = True
+
+    @staticmethod
+    def _show_frame(bgr: BGRImage):
         # bgr -> rgb
         rgb = bgr[:, :, [2, 1, 0]]
         # show frame
@@ -106,6 +112,7 @@ class CameraExtrinsicsCalibration:
     def run(self):
         while not self.is_shutdown:
             cframe = self.robot.camera.capture(block=True, timeout=10)
+
             # get frame as uint8 array
             jpg = cframe.as_uint8()
             bgr = jpeg.decode(jpg)
@@ -116,24 +123,18 @@ class CameraExtrinsicsCalibration:
             # find corners
             try:
                 corners = find_corners(bgr, calibration_board)
-            except RuntimeError:
-                print("No corners")
+                if len(corners) != (calibration_board.columns - 1) * (calibration_board.rows - 1):
+                    raise RuntimeError("Not enough corners")
+            except NoCornersFoundException:
                 # show frame without corners
                 self._show_frame(bgr)
                 continue
 
-            print(f"Found {len(corners)} corners.")
             # estimate homography
-            H = estimate_homography(corners, calibration_board, self.camera)
+            self.camera.H = estimate_homography(corners, calibration_board, self.camera)
+
             # render points
             corners_bgr = draw_corners(bgr, calibration_board, corners)
-
-            print(H)
-
-
-
-            # project the principal point onto the plane
-            # ground_pp = np.dot(H, [0, 0, 1])[:2]
 
             # show frame with corners
             self._show_frame(corners_bgr)
@@ -141,4 +142,13 @@ class CameraExtrinsicsCalibration:
 
 if __name__ == "__main__":
     node = CameraExtrinsicsCalibration()
+
+    def interaction():
+        print("Press [ENTER] when you see a good board detection...")
+        input()
+        print(f"Estimated homography is:\n{node.camera.H}")
+        node.shutdown()
+
+    Thread(target=interaction).start()
+
     node.run()

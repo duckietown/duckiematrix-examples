@@ -1,47 +1,65 @@
-# Template: template-ros
+# Camera Calibration: Extrinsics
 
-This template provides a boilerplate repository
-for developing ROS-based software in Duckietown.
+## Introduction
 
-**NOTE:** If you want to develop software that does not use
-ROS, check out [this template](https://github.com/duckietown/template-basic).
+This project is an example of how to perform camera calibration
+of a robot inside the duckiematrix.
+In this case, we are performing extrinsics calibration.
 
-
-## How to use it
-
-### 1. Fork this repository
-
-Use the fork button in the top-right corner of the github page to fork this template repository.
-
-
-### 2. Create a new repository
-
-Create a new repository on github.com while
-specifying the newly forked template repository as
-a template for your new repository.
+This example is designed to work properly with the map `loop_0` you find
+in this repository.
+Using this demo with a vehicle with different intrinsics camera
+parameters from those in `map_0/vehicle_0` in `loop_0` will affect
+the result.
 
 
-### 3. Define dependencies
+## Step 1: Build the demo
 
-List the dependencies in the files `dependencies-apt.txt` and
-`dependencies-py3.txt` (apt packages and pip packages respectively).
+Run the following command from inside this directory to build the demo.
+
+```shell
+dts devel build
+```
+
+## Step 2: Run the duckiematrix
+
+Run the following command from inside the directory `maps/` you can
+find at the root of this repository to launch the duckiematrix on the
+map `loop_0`.
+
+```shell
+dts matrix run --standalone --map ./loop_0
+```
+
+You should see a duckiematrix renderer pop up.
 
 
-### 4. Place your code
+## Step 3: Run the demo
 
-Place your code in the directory `/packages/` of
-your new repository.
+Run the following command from inside this directory to run the demo.
+
+```shell
+dts devel run -X
+```
+
+You should see a matplotlib window pop up showing the image from the
+robot's front camera.
 
 
-### 5. Setup launchers
+## Step 4: Go to the laboratory
 
-The directory `/launchers` can contain as many launchers (launching scripts)
-as you want. A default launcher called `default.sh` must always be present.
+From the duckiematrix window: 
+- select Mayor's View (top-right corner of the window);
+- walk to the vehicle you see on the road;
+- press [E] to mount the vehicle;
+- use the keys [W], [A], [S], [D] to drive;
+- drive to the laboratory's driveway, then press [F] to enter the building;
+- select the Extrinsics Calibration tool (bottom-center of the window);
 
-If you create an executable script (i.e., a file with a valid shebang statement)
-a launcher will be created for it. For example, the script file 
-`/launchers/my-launcher.sh` will be available inside the Docker image as the binary
-`dt-launcher-my-launcher`.
 
-When launching a new container, you can simply provide `dt-launcher-my-launcher` as
-command.
+## Step 5: Wait for a good detection
+
+The matplotlib window we opened during Step 3 will show the corners detected 
+on the board. Once you see a clear and correct detection of all corners, 
+press [ENTER] in the terminal from Step 3 and the estimated homography
+will be printed to screen.
