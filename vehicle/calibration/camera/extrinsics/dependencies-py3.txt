@@ -1,0 +1,5 @@
+# LIST YOUR PYTHON3 PACKAGES HERE
+
+lib-dt-computer-vision>=0.0.6
+
+dt-duckiematrix-protocols-ente>=0.1.6
