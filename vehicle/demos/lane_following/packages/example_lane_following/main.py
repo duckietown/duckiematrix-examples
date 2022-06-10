@@ -91,7 +91,7 @@ camera_info: Dict[str, Union[np.ndarray, int]] = \
             (3, 3)
         ),
     }
-crop_top = 200
+crop_top = 240
 image_crop = [0, crop_top, 640, camera_info["height"] - crop_top]
 
 # - distance between wheels
