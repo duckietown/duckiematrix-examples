@@ -13,7 +13,7 @@ dt-launchfile-init
 # NOTE: Use `dt-exec COMMAND` to run the main process (blocking process)
 
 # launching app
-python3 -m lane_following.main
+python3 -m example_lane_following.main
 
 
 # ----------------------------------------------------------------------------
