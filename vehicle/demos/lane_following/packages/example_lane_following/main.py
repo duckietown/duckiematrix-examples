@@ -130,7 +130,7 @@ jpeg = TurboJPEG()
 import matplotlib.pyplot as plt
 
 # create matplot window
-# window = plt.imshow(np.zeros((camera_info["width"] - crop_top, 640, 3)))
+# window = plt.imshow(np.zeros((camera_info["height"] - crop_top, 640, 3)))
 window = plt.imshow(np.zeros((400, 400, 3)))
 plt.axis("off")
 fig = plt.figure(1)
