@@ -51,7 +51,7 @@ class CameraIO:
             # show frame
             window.set_data(rgb)
             fig.canvas.draw_idle()
-            fig.canvas.start_event_loop(0.001)
+            fig.canvas.start_event_loop(0.00001)
 
     @property
     def is_shutdown(self):

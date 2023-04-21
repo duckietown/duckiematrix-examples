@@ -21,14 +21,15 @@ from dt_computer_vision.line_detection import LineDetector, ColorRange, Detectio
 # lane filter
 from dt_computer_vision.line_detection.rendering import draw_segments
 from dt_duckiematrix_messages.CameraFrame import CameraFrame
-# duckiematrix
-from dt_duckiematrix_protocols import Matrix
 # inverse kinematics
 from dt_modeling.kinematics.inverse import InverseKinematics
 # lane controller
 from dt_motion_planning.lane_controller import PIDLaneController
 from dt_state_estimation.lane_filter import LaneFilterHistogram
 from dt_state_estimation.lane_filter.types import Segment, SegmentColor, SegmentPoint
+# duckiematrix
+from dt_duckiematrix_protocols import Matrix
+
 
 # types
 Color = Tuple[int, int, int]

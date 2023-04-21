@@ -118,7 +118,7 @@ class CameraExtrinsicsCalibration:
             bgr = jpeg.decode(jpg)
 
             # rectify image
-            bgr = self.camera.rectifier.rectify(bgr, interpolation=cv2.INTER_CUBIC)
+            bgr = self.camera.rectifier.rectify(bgr, interpolation=cv2.INTER_LINEAR)
 
             # find corners
             try:
