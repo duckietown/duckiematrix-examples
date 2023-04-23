@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# line detector
 from threading import Thread
 from typing import Dict
 from typing import Union
@@ -10,7 +9,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from turbojpeg import TurboJPEG
 
-# duckiematrix
 from dt_computer_vision.camera import CameraModel, BGRImage
 from dt_computer_vision.camera.calibration.extrinsics.boards import CalibrationBoard8by6
 from dt_computer_vision.camera.calibration.extrinsics.chessboard import find_corners
@@ -149,6 +147,9 @@ if __name__ == "__main__":
         print(f"Estimated homography is:\n{node.camera.H}")
         node.shutdown()
 
-    Thread(target=interaction).start()
+    Thread(target=interaction, daemon=True).start()
 
-    node.run()
+    try:
+        node.run()
+    except KeyboardInterrupt:
+        exit(0)

@@ -1,0 +1,6 @@
+[submodule "vehicle/calibration/camera/extrinsics/libraries/lib-dt-computer-vision"]
+	path = vehicle/calibration/camera/extrinsics/libraries/lib-dt-computer-vision
+	url = git@github.com:duckietown/lib-dt-computer-vision
+[submodule "vehicle/calibration/camera/extrinsics/libraries/lib-dt-duckiematrix-protocols"]
+	path = vehicle/calibration/camera/extrinsics/libraries/lib-dt-duckiematrix-protocols
+	url = git@github.com:duckietown/lib-dt-duckiematrix-protocols
