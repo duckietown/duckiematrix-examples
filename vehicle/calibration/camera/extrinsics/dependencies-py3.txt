@@ -1,5 +1,2 @@
 # LIST YOUR PYTHON3 PACKAGES HERE
-
-lib-dt-computer-vision>=0.0.7
-
-dt-duckiematrix-protocols-ente>=0.1.6
+# NOTE: only place non-Duckietown libraries here; pin versions only if necessary
