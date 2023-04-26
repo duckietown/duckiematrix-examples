@@ -1,6 +1,28 @@
 [submodule "vehicle/calibration/camera/extrinsics/libraries/lib-dt-computer-vision"]
 	path = vehicle/calibration/camera/extrinsics/libraries/lib-dt-computer-vision
 	url = git@github.com:duckietown/lib-dt-computer-vision
+	branch = ente
 [submodule "vehicle/calibration/camera/extrinsics/libraries/lib-dt-duckiematrix-protocols"]
 	path = vehicle/calibration/camera/extrinsics/libraries/lib-dt-duckiematrix-protocols
 	url = git@github.com:duckietown/lib-dt-duckiematrix-protocols
+	branch = ente
+[submodule "vehicle/demos/lane_following/libraries/lib-dt-computer-vision"]
+	path = vehicle/demos/lane_following/libraries/lib-dt-computer-vision
+	url = git@github.com:duckietown/lib-dt-computer-vision
+	branch = ente
+[submodule "vehicle/demos/lane_following/libraries/lib-dt-state-estimation"]
+	path = vehicle/demos/lane_following/libraries/lib-dt-state-estimation
+	url = git@github.com:duckietown/lib-dt-state-estimation
+	branch = ente
+[submodule "vehicle/demos/lane_following/libraries/lib-dt-modeling"]
+	path = vehicle/demos/lane_following/libraries/lib-dt-modeling
+	url = git@github.com:duckietown/lib-dt-modeling
+	branch = ente
+[submodule "vehicle/demos/lane_following/libraries/lib-dt-motion-planning"]
+	path = vehicle/demos/lane_following/libraries/lib-dt-motion-planning
+	url = git@github.com:duckietown/lib-dt-motion-planning
+	branch = ente
+[submodule "vehicle/demos/lane_following/libraries/lib-dt-duckiematrix-protocols"]
+	path = vehicle/demos/lane_following/libraries/lib-dt-duckiematrix-protocols
+	url = git@github.com:duckietown/lib-dt-duckiematrix-protocols
+	branch = ente
