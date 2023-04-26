@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 
-import time
-from collections import defaultdict
-from queue import Queue, Empty
-from threading import Thread
-from typing import Any, Tuple, Dict, List
-
-import numpy as np
+from typing import Dict
 
 import matplotlib.pyplot as plt
+import numpy as np
 from turbojpeg import TurboJPEG
 
 from dt_duckiematrix_protocols import Matrix
-
 
 # vehicle calibration
 # - camera
