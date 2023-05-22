@@ -8,26 +8,25 @@ Using this demo with a vehicle with different camera/kinematics
 parameters from those in `map_0/vehicle_0` in `loop_0` will affect 
 the behavior.
 
-
 ## Step 1: Build the demo
 
 Run the following command from inside this directory to build the demo.
 
 ```shell
-dts devel build
+dts devel build --pull
 ```
 
-## Step 2: Run the duckiematrix
+## Step 2: Run the Duckiematrix
 
 Run the following command from inside the directory `maps/` you can 
-find at the root of this repository to launch the duckiematrix on the
+find at the root of this repository to launch the Duckiematrix on the
 map `loop_0`.
 
 ```shell
-dts matrix run --standalone --map ./loop_0
+dts matrix run --standalone --map ../../../maps/loop_0
 ```
 
-You should see a duckiematrix renderer pop up.
+You should see a Duckiematrix renderer pop up.
 
 
 ## Step 3: Run the demo
@@ -39,4 +38,4 @@ dts devel run -X
 ```
 
 You should see a matplotlib window pop up and the vehicle inside the 
-duckiematrix start moving.
+Duckiematrix start moving.
