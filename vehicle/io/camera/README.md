@@ -14,7 +14,7 @@ in the new map.
 Run the following command from inside this directory to build the demo.
 
 ```shell
-dts devel build
+dts devel build --pull
 ```
 
 ## Step 2: Run the duckiematrix
@@ -24,7 +24,7 @@ find at the root of this repository to launch the duckiematrix on the
 map `loop_0`.
 
 ```shell
-dts matrix run --standalone --map ./loop_0
+dts matrix run --standalone --map ../../../maps/loop_0
 ```
 
 You should see a duckiematrix renderer pop up.
