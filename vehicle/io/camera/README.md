@@ -19,12 +19,11 @@ dts devel build --pull
 
 ## Step 2: Run the duckiematrix
 
-Run the following command from inside the directory `maps/` you can 
-find at the root of this repository to launch the duckiematrix on the
+Run the following command from inside this directory to launch the duckiematrix on the
 map `loop_0`.
 
 ```shell
-dts matrix run --standalone --map ../../../maps/loop_0
+dts matrix run --standalone --map ./loop_0
 ```
 
 You should see a duckiematrix renderer pop up.
