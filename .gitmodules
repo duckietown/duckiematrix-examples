@@ -30,3 +30,6 @@
 	path = vehicle/io/led/libraries/lib-dt-duckiematrix-protocols
 	url = git@github.com:duckietown/lib-dt-duckiematrix-protocols
 	branch = ente
+[submodule "vehicle/sync/wheels/libraries/lib-dt-duckiematrix-protocols"]
+	path = vehicle/sync/wheels/libraries/lib-dt-duckiematrix-protocols
+	url = git@github.com:duckietown/lib-dt-duckiematrix-protocols
