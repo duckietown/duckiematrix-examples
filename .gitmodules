@@ -33,3 +33,7 @@
 [submodule "vehicle/sync/wheels/libraries/lib-dt-duckiematrix-protocols"]
 	path = vehicle/sync/wheels/libraries/lib-dt-duckiematrix-protocols
 	url = git@github.com:duckietown/lib-dt-duckiematrix-protocols
+[submodule "vehicle/demos/gym_protocol/libraries/lib-dt-duckiematrix-protocols"]
+	path = vehicle/demos/gym_protocol/libraries/lib-dt-duckiematrix-protocols
+	url = https://github.com/duckietown/lib-dt-duckiematrix-protocols.git
+	branch = DTSW-3592-create-single-duckiebot-gym-environment
