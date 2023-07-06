@@ -26,6 +26,14 @@ plt.subplots_adjust(left=0.0, right=1.0, top=1.0, bottom=0.0)
 plt.pause(0.01)
 
 
+def is_image_black(img) -> bool:
+    """Check if we're receiving a black image.
+
+    Args:
+        img (_type_): _description_
+    """
+    return np.all(img == 0)
+
 class CameraIO:
 
     def __init__(self):
@@ -37,11 +45,14 @@ class CameraIO:
     def run(self):
         while not self.is_shutdown:
             cframe = self.robot.camera.capture(block=True)
+            tof_reading = self.robot._time_of_flight.capture(block=True)
+            print(f"TOF reading: {tof_reading}")
             # get frame as uint8 array
             jpg = cframe.as_uint8()
             bgr = jpeg.decode(jpg)
             # bgr -> rgb
             rgb = bgr[:, :, [2, 1, 0]]
+            print(f"The image is black: {is_image_black(rgb)}")
             # show frame
             window.set_data(rgb)
             fig.canvas.draw_idle()
