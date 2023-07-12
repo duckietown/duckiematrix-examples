@@ -1,0 +1,4 @@
+VERSION=0.0.2
+TYPE=template-basic
+TYPE_VERSION=4
+NAME=duckiematrix-example-vehicle-pose
