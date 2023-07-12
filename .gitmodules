@@ -37,3 +37,7 @@
 	path = vehicle/demos/gym_protocol/libraries/lib-dt-duckiematrix-protocols
 	url = https://github.com/duckietown/lib-dt-duckiematrix-protocols.git
 	branch = DTSW-3592-create-single-duckiebot-gym-environment
+[submodule "vehicle/pose/libraries/lib-dt-duckiematrix-protocols"]
+	path = vehicle/pose/libraries/lib-dt-duckiematrix-protocols
+	url = git@github.com:duckietown/lib-dt-duckiematrix-protocols
+	branch = ente-layers
