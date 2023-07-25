@@ -1,6 +1,6 @@
 from gym_duckiematrix import DuckietownEnv
 
-env = DuckietownEnv()
+env = DuckietownEnv(render_mode='human')
 
 obs, info = env.reset()
 

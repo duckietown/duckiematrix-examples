@@ -26,13 +26,6 @@ plt.subplots_adjust(left=0.0, right=1.0, top=1.0, bottom=0.0)
 plt.pause(0.01)
 
 
-def is_image_black(img) -> bool:
-    """Check if we're receiving a black image.
-
-    Args:
-        img (_type_): _description_
-    """
-    return np.all(img == 0)
 
 class CameraIO:
 
