@@ -1,7 +1,7 @@
 # parameters
-ARG REPO_NAME="duckiematrix-example-demo-lf"
-ARG DESCRIPTION="Lane Following for vehicles in the Duckiematrix"
-ARG MAINTAINER="Andrea F. Daniele (afdaniele@ttic.edu)"
+ARG REPO_NAME="duckiematrix-example-gym-protocol"
+ARG DESCRIPTION="Gym protocol for vehicles in the Duckiematrix"
+ARG MAINTAINER="Davide Iafrate (davide.iafrate@duckietown.com)"
 # pick an icon from: https://fontawesome.com/v4.7.0/icons/
 ARG ICON="cube"
 
