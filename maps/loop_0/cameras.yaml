@@ -1,3 +1,4 @@
+version: 1.0
 cameras:
   map_0/vehicle_0/camera_0:
     camera_matrix:
