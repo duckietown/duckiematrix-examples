@@ -59,7 +59,12 @@ From the duckiematrix window:
 
 ## Step 5: Wait for a good detection
 
-The matplotlib window we opened during Step 3 will show the corners detected 
-on the board. Once you see a clear and correct detection of all corners, 
-press [ENTER] in the terminal from Step 3 and the estimated homography
-will be printed to screen.
+The window we opened during Step 3 will show both the raw camera frame and the corners detected on the board. 
+Let it sit until the best reprojection error (in the "_Reprojection Error(Best so far)_") reaches a value 
+of less than `0.03cm`. Then click on [Save].
+
+
+## Step 6: Verify the calibration
+
+The validation window will now appear. The homography we saved in the previous step is now used
+to warp the entire chessboard into a top-view. Verify that the entire chessboard is visible on the right.
