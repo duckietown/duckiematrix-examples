@@ -1,3 +1,9 @@
 # LIST YOUR APT PACKAGES HERE
 
 python3-tk
+
+# needed by openCV to open windows
+libgl1
+libsm6
+libxrender1
+libfontconfig1

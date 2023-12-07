@@ -115,3 +115,6 @@ LABEL \
     org.duckietown.label.base.tag="${BASE_TAG}"
 # <== Do not change the code above this line
 # <==================================================
+
+RUN pip3 uninstall -y opencv-python-headless opencv-python
+RUN pip3 install opencv-python==4.8.1.78

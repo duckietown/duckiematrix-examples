@@ -1,6 +1,6 @@
 # LIST YOUR DUCKIETOWN PYTHON3 PACKAGES HERE
 # NOTE: only place Duckietown libraries here; these libraries will be resolved to the latest available version and pinned; pin a specific version only if necessary
 
-lib-dt-computer-vision>=0.0.7
+lib-dt-computer-vision==0.1.3
 
 dt-duckiematrix-protocols-ente>=0.1.6
