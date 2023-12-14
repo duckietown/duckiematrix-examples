@@ -20,6 +20,8 @@ from dt_computer_vision.camera.calibration.extrinsics.ransac import estimate_hom
 from dt_computer_vision.camera.calibration.extrinsics.rendering import draw_corners, \
     top_view_projected_corners, draw_gui, GUI_RIGHT_IMAGE_ROI, GUI_BTN1_ROI, GUI_BTN2_ROI, GUI_SIZE, \
     VALIDATION_GUI_BTN1_ROI, draw_validation_gui, VALIDATION_GUI_RIGHT_IMAGE_ROI
+from dt_computer_vision.camera.homography import HomographyToolkit, ResolutionIndependentHomography, \
+    ResolutionDependentHomography
 from dt_computer_vision.camera.types import Point, RegionOfInterest
 from dt_computer_vision.ground_projection.types import GroundPoint
 
@@ -197,6 +199,11 @@ Extrinsics calibration:
 
 {yaml.safe_dump({"homography": self._H.flatten().tolist()})}
         """)
+        # convert to resolution independent
+        H_rd: ResolutionDependentHomography = ResolutionDependentHomography.read(self._H)
+        H_ri: ResolutionIndependentHomography = H_rd.camera_independent(self._camera)
+        # save to disk
+        HomographyToolkit.save_to_disk(H_ri, "./default.yaml")
         # exit
         self._quit()
 
