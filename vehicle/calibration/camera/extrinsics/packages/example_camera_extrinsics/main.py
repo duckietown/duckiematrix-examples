@@ -87,6 +87,7 @@ class CameraExtrinsicsCalibration:
             P=camera_info["P"]
         )
         self._is_shutdown: bool = False
+        self._was_cancelled: bool = False
         self._quiet: bool = quiet
         # board to use
         self._board: CalibrationBoard = CalibrationBoard8by6
@@ -108,6 +109,10 @@ class CameraExtrinsicsCalibration:
     @property
     def is_shutdown(self) -> bool:
         return self._is_shutdown
+
+    @property
+    def was_cancelled(self) -> bool:
+        return self._was_cancelled
 
     def shutdown(self):
         self._is_shutdown = True
@@ -142,6 +147,13 @@ class CameraExtrinsicsCalibration:
                 board_found = False
 
             if board_found:
+                # re-orient corners if necessary
+                p0, p_1 = corners[0], corners[-1]
+                cx, cy = self._camera.cx, self._camera.cy
+                # we want the first point (red) to be to the left of the principal point
+                if p0.x > cx and p_1.x < cx:
+                    corners = corners[::-1]
+
                 # estimate homography
                 H: np.ndarray = estimate_homography(corners, self._board, self._camera)
                 self._H = H
@@ -203,8 +215,12 @@ Extrinsics calibration:
         H_rd: ResolutionDependentHomography = ResolutionDependentHomography.read(self._H)
         H_ri: ResolutionIndependentHomography = H_rd.camera_independent(self._camera)
         # save to disk
-        HomographyToolkit.save_to_disk(H_ri, "./default.yaml")
+        HomographyToolkit.save_to_disk(H_ri, "./default.yaml", exist_ok=True)
         # exit
+        self._quit()
+
+    def _cancel(self):
+        self._was_cancelled = True
         self._quit()
 
     def _quit(self):
@@ -218,7 +234,7 @@ Extrinsics calibration:
         # check which button was pressed
         btn_to_fcn = {
             GUI_BTN2_ROI: self._save_calibration,
-            GUI_BTN1_ROI: self._quit,
+            GUI_BTN1_ROI: self._cancel,
         }
 
         for btn, fcn in btn_to_fcn.items():
@@ -326,13 +342,17 @@ class CameraExtrinsicsValidation:
 
 if __name__ == "__main__":
     # run calibration step
-    calibration = CameraExtrinsicsCalibration(quiet=False)
+    calibration = CameraExtrinsicsCalibration(quiet=True)
     try:
         calibration.run()
     except KeyboardInterrupt:
         exit(0)
     # get homography
     homography = calibration.H
+
+    # exit if we cancelled
+    if calibration.was_cancelled:
+        exit(0)
 
     # run validation step
     validation = CameraExtrinsicsValidation(homography)
