@@ -1,9 +1,9 @@
 # LIST YOUR DUCKIETOWN PYTHON3 PACKAGES HERE
 # NOTE: only place Duckietown libraries here; these libraries will be resolved to the latest available version and pinned; pin a specific version only if necessary
 
-lib-dt-computer-vision>=0.0.7
-lib-dt-state-estimation>=0.0.5
-lib-dt-modeling>=0.0.4
-lib-dt-motion-planning>=0.0.1
+lib-dt-computer-vision>=0.1.8
+lib-dt-state-estimation>=0.0.8
+lib-dt-modeling>=0.0.9
+lib-dt-motion-planning>=0.0.3
 
 dt-duckiematrix-protocols-ente>=0.1.6
