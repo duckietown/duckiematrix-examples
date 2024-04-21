@@ -117,4 +117,4 @@ LABEL \
 # <==================================================
 
 RUN pip3 uninstall -y opencv-python-headless opencv-python
-RUN pip3 install opencv-python==4.8.1.78
+RUN pip3 install opencv-python==4.9.0.80
