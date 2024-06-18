@@ -1,6 +1,7 @@
 version: 1.0
 cameras:
   map_0/vehicle_0/camera_0:
+    name: front_center
     camera_matrix:
     - - 295.79606866959824
       - 0.0

@@ -1,29 +1,33 @@
 version: 1.0
 lights:
   map_0/vehicle_0/light_0:
+    name: front_left
     type: spot
-    intensity: 0.0
+    intensity: 1
     range: 2.0
     angle: 0.0
     color: '#fff'
   map_0/vehicle_0/light_1:
+    name: front_right
     type: spot
-    intensity: 0.0
+    intensity: 1
     range: 2.0
     angle: 0.0
     color: '#fff'
   map_0/vehicle_0/light_3:
+    name: back_left
     type: spot
-    intensity: 0.0
+    intensity: 1
     range: 2.0
     angle: 0.0
-    color: '#fff'
+    color: '#f00'
   map_0/vehicle_0/light_4:
+    name: back_right
     type: spot
-    intensity: 0.0
+    intensity: 1
     range: 2.0
     angle: 0.0
-    color: '#fff'
+    color: '#f00'
   map_0/billboard_1/light_0:
     type: spot
     intensity: 0.2
