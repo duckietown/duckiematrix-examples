@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import signal
 from collections import defaultdict
 from queue import Queue, Empty
 from threading import Thread
@@ -20,16 +20,19 @@ from dt_computer_vision.ground_projection.types import GroundPoint
 from dt_computer_vision.line_detection import LineDetector, ColorRange, Detections
 # lane filter
 from dt_computer_vision.line_detection.rendering import draw_segments
-from dt_duckiematrix_messages.CameraFrame import CameraFrame
 # inverse kinematics
 from dt_modeling.kinematics.inverse import InverseKinematics
 # lane controller
 from dt_motion_planning.lane_controller import PIDLaneController
 from dt_state_estimation.lane_filter import LaneFilterHistogram
 from dt_state_estimation.lane_filter.types import Segment, SegmentColor, SegmentPoint
-# duckiematrix
-from dt_duckiematrix_protocols import Matrix
 
+from duckietown.sdk.robots.duckiebot import DB21J
+
+import logging
+logging.getLogger("matplotlib.pyplot").setLevel(logging.WARNING)
+logging.getLogger("matplotlib.font_manager").setLevel(logging.WARNING)
+logging.getLogger("PIL.PngImagePlugin").setLevel(logging.WARNING)
 
 # types
 Color = Tuple[int, int, int]
@@ -131,7 +134,7 @@ jpeg = TurboJPEG()
 import matplotlib.pyplot as plt
 
 # create matplot window
-# window = plt.imshow(np.zeros((camera_info["height"] - crop_top, 640, 3)))
+# window = plt.imshow(np.zeros((camera_info["height"] - crop_top, camera_info["width"], 3)))
 window = plt.imshow(np.zeros((400, 400, 3)))
 plt.axis("off")
 fig = plt.figure(1)
@@ -152,11 +155,12 @@ plt.pause(0.01)
 class LaneFollowing:
 
     def __init__(self):
+        # shutdown flag
+        self._shutdown = False
         # create connection to the matrix engine
-        matrix = Matrix("localhost", auto_commit=True)
-        # create connection to the vehicle
-        self.robot = matrix.robots.DB21M("map_0/vehicle_0")
+        self.robot: DB21J = DB21J("map_0/vehicle_0", simulated=True)
         self.robot.camera.attach(self._img_cb)
+        self.robot.camera.start()
         # apply crop to camera calibration
         self._camera_info = camera_info
         x, y, w, h = image_crop
@@ -182,24 +186,36 @@ class LaneFollowing:
         # start worker threads
         for w in self._workers:
             w.start()
+        # register sigint handler
+        signal.signal(signal.SIGINT, self._sigint_handler)
 
     def join(self):
+        global last_command_time
+
         while not self.is_shutdown:
             # bgr = self._queue_pop("lines_image")
-            bgr = self._queue_pop("segments_image")
-            rgb = bgr[:, :, [2, 1, 0]]
-            # show frame
-            window.set_data(rgb)
-            fig.canvas.draw_idle()
-            fig.canvas.start_event_loop(0.001)
+            bgr = self._queue_pop("segments_image", block=False)
+            if bgr is not None:
+                rgb = bgr[:, :, [2, 1, 0]]
+                # show frame
+                window.set_data(rgb)
+                fig.canvas.draw_idle()
+                fig.canvas.start_event_loop(0.00001)
+            # ---
+            time.sleep(1 / 30.)
+
+    def _sigint_handler(self, _, __):
+        self._shutdown = True
 
     @property
     def is_shutdown(self):
-        # TODO: link this to SIGINT
-        return False
+        return self._shutdown
 
-    def _queue_pop(self, queue: str) -> Any:
-        value = self._queues[queue].get()
+    def _queue_pop(self, queue: str, block: bool = True) -> Any:
+        try:
+            value = self._queues[queue].get(block=block)
+        except Empty:
+            value = None
         # self.loginfo(f"POP: {queue}")
         return value
 
@@ -214,12 +230,9 @@ class LaneFollowing:
         self._queues[queue].put(value)
         # self.loginfo(f"PUT: {queue}")
 
-    def _img_cb(self, cframe: CameraFrame):
+    def _img_cb(self, bgr: np.ndarray):
         if self._queue_full("images"):
             return
-        # get frame as uint8 array
-        jpg = cframe.as_uint8()
-        bgr = jpeg.decode(jpg)
         # crop frame
         x, y, w, h = image_crop
         bgr = bgr[y:y + h, x:x + w, :]
@@ -339,11 +352,17 @@ class LaneFollowing:
     def _wheels(self):
         global last_command_time
         # ---
+        self.robot.motors.start()
         while not self.is_shutdown:
             wl, wr = self._queue_pop("wl_wr")
-            with self.robot.session():
-                self.robot.drive(wl, wr)
-                last_command_time = time.time()
+
+            # TODO: this is a hack to simulate rad/s to PWM conversion
+            wl = wl * 0.04
+            wr = wr * 0.04
+
+            self.robot.motors.set_pwm(left=wl, right=wr)
+            last_command_time = time.time()
+        self.robot.motors.stop()
 
 
 if __name__ == "__main__":

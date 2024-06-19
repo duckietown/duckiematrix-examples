@@ -1,0 +1,8 @@
+name: "duckiematrix-example-demo-lf"
+maintainer:
+    name: "Andrea F. Daniele"
+    email: "afdaniele@duckietown.com"
+description: "Lane Following for vehicles in the Duckiematrix"
+version: 0.0.0
+# pick an icon from: https://fontawesome.com/v4.7.0/icons/
+icon: square
