@@ -6,7 +6,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from turbojpeg import TurboJPEG
 
-from dt_duckiematrix_protocols import Matrix
+from duckietown.sdk.robots.duckiebot import DB21J
+
+import logging
+logging.getLogger("matplotlib.pyplot").setLevel(logging.WARNING)
+logging.getLogger("matplotlib.font_manager").setLevel(logging.WARNING)
+logging.getLogger("PIL.PngImagePlugin").setLevel(logging.WARNING)
 
 # vehicle calibration
 # - camera
@@ -30,22 +35,19 @@ class CameraIO:
 
     def __init__(self):
         # create connection to the matrix engine
-        matrix = Matrix("localhost")
-        # create connection to the vehicle
-        self.robot = matrix.robots.DB21M("map_0/vehicle_0")
+        self.robot: DB21J = DB21J("map_0/vehicle_0", simulated=True)
 
     def run(self):
+        self.robot.camera.start()
         while not self.is_shutdown:
-            cframe = self.robot.camera.capture(block=True)
-            # get frame as uint8 array
-            jpg = cframe.as_uint8()
-            bgr = jpeg.decode(jpg)
+            bgr: np.ndarray = self.robot.camera.capture(block=True)
             # bgr -> rgb
             rgb = bgr[:, :, [2, 1, 0]]
             # show frame
             window.set_data(rgb)
             fig.canvas.draw_idle()
             fig.canvas.start_event_loop(0.00001)
+        self.robot.camera.stop()
 
     @property
     def is_shutdown(self):
