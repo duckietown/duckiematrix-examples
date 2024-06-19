@@ -5,4 +5,4 @@ lib-dt-state-estimation==0.0.9
 lib-dt-modeling==0.0.11
 lib-dt-motion-planning==0.0.4
 
-duckietown-sdk==0.1.1
+duckietown-sdk==0.1.2
