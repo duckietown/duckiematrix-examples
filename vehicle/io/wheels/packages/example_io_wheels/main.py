@@ -1,24 +1,23 @@
 #!/usr/bin/env python3
 import time
 
-from dt_duckiematrix_protocols import Matrix
+from duckietown.sdk.robots.duckiebot import DB21J
 
-
-V0 = 1.0
+PWM_DUTY_CYCLE = -0.25
 
 
 class WheelsIO:
 
     def __init__(self):
         # create connection to the matrix engine
-        self.matrix = Matrix("localhost", auto_commit=True)
-        # create connection to the vehicle
-        self.robot = self.matrix.robots.DB21M("map_0/vehicle_0")
+        self.robot: DB21J = DB21J("map_0/vehicle_0", simulated=True)
 
     def run(self):
+        self.robot.motors.start()
         while not self.is_shutdown:
-            self.robot.drive(left=V0, right=V0)
+            self.robot.motors.set_pwm(left=PWM_DUTY_CYCLE, right=PWM_DUTY_CYCLE)
             time.sleep(0.1)
+        self.robot.motors.stop()
 
     @property
     def is_shutdown(self):
