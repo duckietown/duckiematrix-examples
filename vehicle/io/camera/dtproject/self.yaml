@@ -1,0 +1,8 @@
+name: "duckiematrix-example-io-camera"
+maintainer:
+    name: "Andrea F. Daniele"
+    email: "afdaniele@duckietown.com"
+description: "Visualization of a camera stream produced by a Duckiematrix"
+version: 0.0.2
+# pick an icon from: https://fontawesome.com/v4.7.0/icons/
+icon: square
