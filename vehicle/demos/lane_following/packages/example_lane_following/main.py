@@ -83,15 +83,16 @@ camera_info: Dict[str, Union[np.ndarray, int]] = \
         ),
         "H": np.reshape(
             [
-                8.56148231e-03,
-                2.22480148e-01,
-                4.24318934e-01,
-                -5.67022044e-01,
-                -1.13258040e-03,
-                6.81113839e-04,
-                5.80917161e-02,
-                4.35079347e+00,
-                1.0],
+                -0.024035492889439958,
+                0.19876388357863825,
+                0.5190570282632594,
+                -0.682009467271606,
+                -0.004337319642967827,
+                0.0017543970533221737,
+                -0.054766168586224295,
+                5.494719535914916,
+                0.9999999999999999,
+    ],
             (3, 3)
         ),
     }
@@ -276,8 +277,7 @@ class LaneFollowing:
         )
         projector = GroundProjector(camera)
         # create filter
-        filter = LaneFilterHistogram()
-
+        filter  = LaneFilterHistogram()
         grid = draw_grid_image((400, 400))
 
         while not self.is_shutdown:

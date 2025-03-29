@@ -1,9 +1,14 @@
-from gym_duckiematrix import DuckietownEnv
+from gym_duckiematrix.DB21J import DuckiematrixDB21JEnv
+from time import sleep
 
-env = DuckietownEnv(render_mode='human')
+env = DuckiematrixDB21JEnv()
 
 obs, info = env.reset()
 
-for i in range(1000):
-    obs, reward, truncated, terminated, info = env.step(env.action_space.sample())
-    env.render()
+for i in range(100):
+    action = env.action_space.sample()
+    print(f"sending action {action}")
+    obs, reward, truncated, terminated, info = env.step(action)
+    print("received observation")
+    sleep(0.1)
+    #env.render()

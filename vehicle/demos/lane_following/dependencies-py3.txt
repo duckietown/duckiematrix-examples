@@ -1,7 +1,11 @@
 # LIST YOUR PYTHON3 PACKAGES HERE
 
-lib-dt-computer-vision==0.1.9
-lib-dt-state-estimation==0.0.9
+#lib-dt-computer-vision==0.1.9
+git+https://github.com/duckietown/lib-dt-computer-vision.git@ente-fixing-conventions
+
+#lib-dt-state-estimation==0.0.9
+git+https://github.com/duckietown/lib-dt-state-estimation.git@ente
+
 lib-dt-modeling==0.0.11
 lib-dt-motion-planning==0.0.4
 

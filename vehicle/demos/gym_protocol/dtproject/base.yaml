@@ -1,4 +1,4 @@
 registry: docker.io
 organization: duckietown
-tag: ente-arm64v8
+tag: ente-amd64
 repository: dt-commons
